@@ -1,0 +1,13 @@
+name = "HashCode2014Sol"
+uuid = "a17671bd-a8df-47c0-9b5c-ccc7205f4d81"
+authors = ["Karen Chung <karenchung117@gmail.com> and contributors"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.8"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
