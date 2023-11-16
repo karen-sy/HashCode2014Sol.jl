@@ -1,4 +1,4 @@
-import HashCode2014
+using HashCode2014
 
 @enum DIRECTION begin
     NORTH
@@ -17,7 +17,7 @@ end
 """
     change_duration(city, total_duration)
 
-Create a new [`City`](@ref) with a different `total_duration` and everything else equal.
+Create a new City with a different `total_duration` and everything else equal.
 """
 function change_duration(city::City, total_duration)
     new_city = City(;

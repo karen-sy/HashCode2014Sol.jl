@@ -1,17 +1,11 @@
 module HashCode2014Sol
-    using HashCode2014
-    using BenchmarkTools
-    include("functions.jl")
-
-    random_dist = randomWalkDistance()
-    println(random_dist)
-    @btime randomWalkDistance()
+using HashCode2014
 
 
-    c = city()
-    # c = change_duration(c, 18000)
-    soln = smartRandomWalk(c)
-    smart_dist = getSolnDistance(soln, c)
-    println(smart_dist)
-    @btime smartRandomWalk(c)
+export city, randomWalkDistance, smartRandomWalk, getSolnDistance   # functions.jl 
+export routegrid, check_junction, check_route, add_route!, delete_route!, replace_route!   # routegrid.jl
+
+include("functions.jl")
+include("routegrid.jl")
+
 end

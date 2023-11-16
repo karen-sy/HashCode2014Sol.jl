@@ -27,7 +27,7 @@ Base.@kwdef struct RouteGrid
     junctions::Vector{Junction}
     streets::Vector{Street}
     street_dists::Vector{Int} 
-    routes::Dict{Tuple{Int},{Route}}
+    routes::Dict{Tuple{Int},Route}
 end
 
 #############################
@@ -41,7 +41,7 @@ Create a RouteGrid from the official challenge City.
 """
 function routegrid()
     city = HashCode2014.read_city()
-    street_dists = Vector{Int}(len(city.streets))
+    street_dists =zeros(len(city.streets))
 
     # store Street distances 
     for i=1:len(city.streets)
@@ -49,7 +49,7 @@ function routegrid()
     end
 
     # initially there is no registered route.
-    routes = Dict{Tuple{Int},{Route}}()
+    routes = Dict{Tuple{Int}, Route}()
 
     return RouteGrid(starting_junction=city.starting_junction,
                     junctions=city.junctions,
@@ -75,7 +75,7 @@ function routegrid(city::City)
     end
 
     # initially there is no registered route.
-    routes = Dict{Tuple{Int},{Route}}()
+    routes = Dict{Tuple{Int}, Route}()
 
     return RouteGrid(starting_junction=city.starting_junction,
                     junctions=city.junctions,
@@ -131,6 +131,7 @@ function check_route(route_grid::RouteGrid, junction_idx_start::Int, junction_id
         return (true, route_grid.routes[(junction_idx_start, junction_idx_end)])
     else 
         return (false, nothing)
+    end
 end
 
 
