@@ -15,9 +15,9 @@ associated with calculating and storing routes for traversing a city.
 import HashCode2014
 
 Base.@kwdef struct Route 
-    route::Vector{Street}
-    start_street::Street 
-    end_street::Street 
+    streets::Vector{Street}
+    start_junc::Int 
+    end_junc::Int 
     dist::Int 
     duration::Int
 end
@@ -27,7 +27,7 @@ Base.@kwdef struct RouteGrid
     junctions::Vector{Junction}
     streets::Vector{Street}
     street_dists::Vector{Int} 
-    routes::Dict{Tuple{Int},Route}
+    routes::Dict{Tuple{Int64, Int64},Route}
 end
 
 #############################
@@ -41,15 +41,15 @@ Create a RouteGrid from the official challenge City.
 """
 function routegrid()
     city = HashCode2014.read_city()
-    street_dists =zeros(len(city.streets))
+    street_dists =zeros(length(city.streets))
 
     # store Street distances 
-    for i=1:len(city.streets)
+    for i=1:length(city.streets)
         street_dists[i] = city.streets[i].distance
     end
 
     # initially there is no registered route.
-    routes = Dict{Tuple{Int}, Route}()
+    routes = Dict{Tuple{Int64, Int64}, Route}()
 
     return RouteGrid(starting_junction=city.starting_junction,
                     junctions=city.junctions,
@@ -64,18 +64,18 @@ end
 Create a RouteGrid from a specified City. 
 """
 function routegrid(city::City)
-    street_dists = Vector{Int}(len(city.streets))
-    for i=1:len(city.streets)
+    street_dists = Vector{Int}(undef, length(city.streets))
+    for i=1:length(city.streets)
         street_dists[i] = city.streets[i].distance
     end
 
     # store Street distances 
-    for i=1:len(city.streets)
+    for i=1:length(city.streets)
         street_dists[i] = city.streets[i].distance
     end
 
     # initially there is no registered route.
-    routes = Dict{Tuple{Int}, Route}()
+    routes = Dict{Tuple{Int64, Int64}, Route}()
 
     return RouteGrid(starting_junction=city.starting_junction,
                     junctions=city.junctions,
@@ -84,6 +84,17 @@ function routegrid(city::City)
                     routes=routes)
 end
 
+
+"""
+    route(streets, start_junc_idx, end_junc_idx)
+
+Create a Route from the in-RouteGrid indices of its start and end junctions
+"""
+function route(streets::Vector{Street}, start_junc_idx::Int, end_junc_idx::Int)
+    total_dist = sum([street.distance for street in streets])
+    total_duration = sum([street.duration for street in streets])
+    return Route(streets, start_junc_idx, end_junc_idx, total_dist, total_duration)
+end
 
 #############################
 # Checking Ops 
@@ -97,8 +108,8 @@ If so, return (true, Junction); else, return (false, nothing)
 function check_junction(route_grid::RouteGrid, street_idx_1::Int, street_idx_2::Int)
     @assert street_idx_1 < length(route_grid.streets) && street_idx_2 < length(route_grid.streets)
     
-    street_1::Street = route_grid.street_dists[street_idx_1]
-    street_2::Street = route_grid.street_dists[street_idx_2]
+    street_1::Street = route_grid.streets[street_idx_1]
+    street_2::Street = route_grid.streets[street_idx_2]
 
     eA_1, eB_1 = street_1.endpointA, street_1.endpointB
     eA_2, eB_2 = street_2.endpointA, street_2.endpointB
@@ -145,32 +156,31 @@ end
 Register a new Route to RouteGrid
 """
 function add_route!(route_grid::RouteGrid, route::Route)
-    route_grid[(route.start_street, route.end_street)] = route
+    print((route.start_junc, route.end_junc))
+    route_grid.routes[(route.start_junc, route.end_junc)] = route
 end
 
 
 """
-    delete_route!(route_grid, street_idx_start, street_idx_end)
+    delete_route!(route_grid, junc_idx_start, junc_idx_end)
 
 Delete an existing Route between two streets from RouteGrid.
 The first index denotes the start street, and the second index denotes the end street.
 """
-function delete_route!(route_grid::RouteGrid, street_idx_start::Int, street_idx_end::Int)
-    start_street::Street = route_grid.streets[street_idx_start]
-    end_street::Street = route_grid.streets[street_idx_end]
-    @assert haskey(route_grid.routes, (start_street, end_street)), "Route to remove does not exist in RouteGrid"
-    delete!(route_grid.routes, (start_street, end_street))
+function delete_route!(route_grid::RouteGrid, junc_idx_start::Int, junc_idx_end::Int)
+    @assert haskey(route_grid.routes, (junc_idx_start, junc_idx_end)) "Route to remove does not exist in RouteGrid"
+    delete!(route_grid.routes, (junc_idx_start, junc_idx_end))
 end
 
 
 """
     replace_route!(route_grid, new_route)
 
-Replace an existing Route between two streets in RouteGrid with a new Route  
+Replace an existing Route between two junctions in RouteGrid with a new Route  
 """
 function replace_route!(route_grid::RouteGrid, new_route::Route)
-    @assert haskey(route_grid.routes, (new_route.start_street, new_route.end_street)), "Route between streets does not already exist in RouteGrid"
-    route_grid.routes[(new_route.start_street, new_route.end_street)] = new_route
+    @assert haskey(route_grid.routes, (new_route.start_junc, new_route.end_junc)) "Route between junctions does not already exist in RouteGrid"
+    route_grid.routes[(new_route.start_junc, new_route.end_junc)] = new_route
 end
 
 
