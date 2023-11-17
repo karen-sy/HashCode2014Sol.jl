@@ -12,7 +12,3 @@ Documentation for [HashCode2014Sol](https://github.com/karen-sy/HashCode2014Sol.
 ```@autodocs
 Modules = [HashCode2014Sol]
 ```
-
-```@docs
-routegrid()
-```
