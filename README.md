@@ -7,9 +7,4 @@
 [![Coverage](https://codecov.io/gh/karen-sy/HashCode2014Sol.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/karen-sy/HashCode2014Sol.jl)
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 
-### Upper bound 
-Section the city into different possible paths for each car, such that at each repeating junction, they purposely go on to different undiscovered locations. The time constraint is taken into consideration, where the maximum time taken by a car bounds the overall distance traveled by all cars up to that point.
-
-Realistically, this is an improved solution check due to the feasibility of cars' distances over unique paths in such a short time. 
-
-This gives us an upper bound of 1967444m for 54000 seconds and 1525155m for 18000 seconds 
+Project repository for the final project for MIT's [18.C25 Julia: Solving Real-World Problems with Computation](https://github.com/mitmath/JuliaComputation). The project's objective is derived from [Google's HashCode 2014 competition](https://storage.googleapis.com/coding-competitions.appspot.com/HC/2014/hashcode2014_final_task.pdf). 
