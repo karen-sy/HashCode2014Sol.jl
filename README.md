@@ -20,28 +20,9 @@ The problem at hand is to optimize Google Streetview collections. We ideally mus
 
 A random_walk solution, in the starter code, randomly, for each car, chooses a viable street to travel across. Our task for the challenge is to reduce computation time, and increase total distance traveled across the city. 
 
-# Tutorial 
 ## Starting 
 Compatibility for Julia 1.8 or above required. Install from Github on terminal. Dependencies are automatically installed, and are as follows:
 1. BenchmarkTools
 2. [HashCode2014](https://github.com/gdalle/HashCode2014.jl)
-
-## City creations 
-Our model city at the moment is Paris. To create a default, call:
-``city()``
-
-We may want to fix a solution for smaller constraints. To modify an existing ``city:City`` to a new desired ``total_duration``, call: change_duration(city, total_u)
-A tutorial aimed at users of your code
-
-A list of all the docstrings
-
-A mathematical description of your algorithms
-
-A critical discussion of their implementation and performance
-
-Ensure your documentation covers all aspects of using your package.
-
-## functions.jl
-## routegrid.jl
 
 Project repository for the final project for MIT's [18.C25 Julia: Solving Real-World Problems with Computation](https://github.com/mitmath/JuliaComputation). The project's objective is derived from [Google's HashCode 2014 competition](https://storage.googleapis.com/coding-competitions.appspot.com/HC/2014/hashcode2014_final_task.pdf). 
