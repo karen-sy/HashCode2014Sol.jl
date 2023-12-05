@@ -10,6 +10,10 @@ end
 DIRECTION_ARRAY = [NORTH, EAST, SOUTH, NORTH] 
 THRESHOLD = 0.01
 
+"""
+    city()
+Returns default city of type City in HashCode2014 starter 
+"""
 function city()
     return HashCode2014.read_city()
 end 
