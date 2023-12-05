@@ -6,7 +6,7 @@ DocMeta.setdocmeta!(HashCode2014Sol, :DocTestSetup, :(using HashCode2014Sol); re
 makedocs(;
     modules=[HashCode2014Sol],
     authors="Karen Chung <karenchung117@gmail.com> and contributors",
-    repo="https://github.com/karen-sy/HashCode2014Sol.jl/blob/{commit}{path}#{line}",
+    repo=Documenter.Remotes.URL("https://gitlab.com/user/project/-/tree/{commit}{path}#{line}","https://github.com/karen-sy/HashCode2014Sol.jl/blob/{commit}{path}#{line}"),
     sitename="HashCode2014Sol.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
