@@ -5,14 +5,14 @@ using Test
 @testset "HashCode2014Sol.jl" begin
     @testset "HW7 (functions.jl)" begin
         c = city()
-        rdistance = randomWalkDistance()
-        rtime = @belapsed randomWalkDistance()
+        rdistance = random_walk_distance()
+        rtime = @belapsed random_walk_distance()
         println("Random dist=", rdistance)
         println("Random time=", rtime)
 
-        new_soln = optimalWalk(c)
-        sdistance = getSolnDistance(new_soln, c)
-        stime = @belapsed getSolnDistance(optimalWalk(c), c)
+        new_soln = optimal_walk(c)
+        sdistance = get_soln_distance(new_soln, c)
+        stime = @belapsed get_soln_distance(optimal_walk(c), c)
         println("Smart dist=", sdistance)
         println("Smart time=", stime )
 
@@ -26,9 +26,9 @@ using Test
         println("Random dist=", rdistance)
         println("Random time=", rtime)
 
-        new_soln = optimalWalk(c)
-        sdistance = getSolnDistance(new_soln, c)
-        stime = @belapsed getSolnDistance(optimalWalk(c), c)
+        new_soln = optimal_walk(c)
+        sdistance = get_soln_distance(new_soln, c)
+        stime = @belapsed get_soln_distance(optimal_walk(c), c)
         println("Smart dist=", sdistance)
         println("Smart time=", stime )
     end

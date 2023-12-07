@@ -1,9 +1,9 @@
 using HashCode2014
 include("functions.jl")
 
-function optimalWalk(city::HashCode2014.City)
+function optimal_walk(city::HashCode2014.City)
     (; total_duration, nb_cars, starting_junction, junctions, streets) = city
-    neighbors_streets = getNeighborStreets(city) #switches endpoints if bidirectional
+    neighbors_streets = get_neighbor_streets(city) #switches endpoints if bidirectional
     #for every neighbor in neighbors_streets[i], neighbor.endpointA = i 
 
     #frequency of how often we visited every node, default zero 
@@ -28,7 +28,7 @@ function optimalWalk(city::HashCode2014.City)
             end 
             
             if(length(current_streets) == 0) break end #no suitable candidates left 
-            best_street = optimalNeighbor(current_streets, visited_nodes) #gets most optimal for distance per time 
+            best_street = optimal_neighbor(current_streets, visited_nodes) #gets most optimal for distance per time 
             # prioritizes undiscovered nodes 
 
             #update 
@@ -47,7 +47,7 @@ end
                        from same origin node neighbor.endpointA 
     returns the street that is least visited, breaks ties by picking left-most entry in neighbors_streets
 """
-function optimalNeighbor(neighbors_streets::Vector{HashCode2014.Street}, visited::Dict{Int, Int})::HashCode2014.Street
+function optimal_neighbor(neighbors_streets::Vector{HashCode2014.Street}, visited::Dict{Int, Int})::HashCode2014.Street
     least_freq_street = neighbors_streets[1]
     least_freq = 1000000000
     for neighbor in neighbors_streets

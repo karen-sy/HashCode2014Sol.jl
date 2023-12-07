@@ -32,13 +32,13 @@ function distance(solution, city)
     return HashCode2014.total_distance(solution, city)
 end
 
-function randomWalkDistance()
+function random_walk_distance()
     c = HashCode2014.read_city()
     solution = HashCode2014.random_walk(c)
     return HashCode2014.total_distance(solution, c)
 end 
 
-function getSolnDistance(solution::Solution, c::City)
+function get_soln_distance(solution::Solution, c::City)
     return HashCode2014.total_distance(solution, c)
 end 
     
@@ -49,7 +49,7 @@ end
         Goes even more specific that if street in neighbors_streets[i]:
                 street.endpointA = i 
 """
-function getNeighborStreets(city::HashCode2014.City)
+function get_neighbor_streets(city::HashCode2014.City)
     streets = city.streets
     junctions = city.junctions
     N = length(junctions) #number of nodes 
