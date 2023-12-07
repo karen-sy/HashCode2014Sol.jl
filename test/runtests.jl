@@ -4,14 +4,33 @@ using Test
 
 @testset "HashCode2014Sol.jl" begin
     @testset "HW7 (functions.jl)" begin
-        random_dist = randomWalkDistance()
-        println("Random dist=", random_dist)
-        
         c = city()
-        soln = smartRandomWalk(c)
-        probabilistic_random_dist = getSolnDistance(soln, c)
-        println("Smart dist=", probabilistic_random_dist)
-        @test random_dist > probabilistic_random_dist   # currently, the random sol is slower but traverses more streets than the probabilistic random sol.
+        rdistance = randomWalkDistance()
+        rtime = @belapsed randomWalkDistance()
+        println("Random dist=", rdistance)
+        println("Random time=", rtime)
+
+        new_soln = optimalWalk(c)
+        sdistance = getSolnDistance(new_soln, c)
+        stime = @belapsed getSolnDistance(optimalWalk(c), c)
+        println("Smart dist=", sdistance)
+        println("Smart time=", stime )
+
+        @test sdistance > rdistance
+        @test stime < rtime
+    end 
+    @testset "HW7 (function.jl) part 2" begin
+        c = change_duration(city(), 18000)
+        rdistance = distance(random_walk(change_duration(city(), 18000)), c)
+        rtime = @belapsed distance(random_walk(change_duration(city(), 18000)), c)
+        println("Random dist=", rdistance)
+        println("Random time=", rtime)
+
+        new_soln = optimalWalk(c)
+        sdistance = getSolnDistance(new_soln, c)
+        stime = @belapsed getSolnDistance(optimalWalk(c), c)
+        println("Smart dist=", sdistance)
+        println("Smart time=", stime )
     end
 
     @testset "routegrid.jl" begin

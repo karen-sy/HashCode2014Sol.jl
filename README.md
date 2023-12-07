@@ -11,7 +11,7 @@ HashCode2014Sol.jl, written by Karen Chung and Promia Chowdhury, is our attempt 
 
 As follows, the problem description is: 
 
-City is defined as a graph with nodes called junctions, connected by edges called streets. Junctions have defined lat. and long. coordinates, while streets have two junctional endpoints a and b; streets are also indicated as bidirectional or not, as well distance and time to travel across the street by car.   
+City is defined as a graph with nodes called junctions, connected by edges called streets. Junctions have defined lat. and long. coordinates, while streets have two junctional endpoints a and b; streets are also indicated bidirectionality, as well as by distance and time to travel across the street by car.   
 
 The problem at hand is to optimize Google Streetview collections. We ideally must travel along as many unique streets as possible. We are constrained by various factors:
 1. nb_cars = number of cars 
