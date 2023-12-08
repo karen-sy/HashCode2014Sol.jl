@@ -67,4 +67,21 @@ function get_neighbor_streets(city::HashCode2014.City)
         end 
     end 
     return neighbors_streets
+end
+
+function upper_limit(city::HashCode2014.City)
+    (; total_duration, nb_cars, starting_junction, streets) = city
+
+    # sorts by "most efficient" streets, distance per time unit 
+    sorted = sort!(streets, by=street->(street.distance)/(street.duration), rev=true)
+    duration = 0
+    distance = 0
+    while length(sorted) > 0 
+        street = popfirst!(sorted)
+        if(street.duration+duration > (total_duration*nb_cars)) #check if next streets are better 
+            continue end 
+        duration += street.duration
+        distance += street.distance
+    end 
+    return distance
 end 

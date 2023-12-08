@@ -7,14 +7,10 @@ using Test
         c = city()
         rdistance = random_walk_distance()
         rtime = @belapsed random_walk_distance()
-        println("Random dist=", rdistance)
-        println("Random time=", rtime)
 
         new_soln = optimal_walk(c)
         sdistance = get_soln_distance(new_soln, c)
-        stime = @belapsed get_soln_distance(optimal_walk(c), c)
-        println("Smart dist=", sdistance)
-        println("Smart time=", stime )
+        stime = @belapsed get_soln_distance(optimal_walk(city()), city())
 
         @test sdistance > rdistance
         @test stime < rtime
@@ -22,15 +18,14 @@ using Test
     @testset "HW7 (function.jl) part 2" begin
         c = change_duration(city(), 18000)
         rdistance = distance(random_walk(change_duration(city(), 18000)), c)
-        rtime = @belapsed distance(random_walk(change_duration(city(), 18000)), c)
-        println("Random dist=", rdistance)
-        println("Random time=", rtime)
+        rtime = @belapsed distance(random_walk(change_duration(city(), 18000)), change_duration(city(), 18000))
 
         new_soln = optimal_walk(c)
         sdistance = get_soln_distance(new_soln, c)
-        stime = @belapsed get_soln_distance(optimal_walk(c), c)
-        println("Smart dist=", sdistance)
-        println("Smart time=", stime )
+        stime = @belapsed get_soln_distance(optimal_walk(change_duration(city(), 18000)), change_duration(city(), 18000))
+        
+        @test sdistance > rdistance
+        @test stime < rtime
     end
 
     @testset "routegrid.jl" begin
