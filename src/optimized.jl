@@ -29,6 +29,8 @@ function optimal_walk(city::HashCode2014.City)
             
             if(length(current_streets) == 0) break end #no suitable candidates left 
             best_street = optimal_neighbor(current_streets, visited_nodes) #gets most optimal for distance per time 
+            # feasibility check:
+            @assert HashCode2014.is_street_start(current_node, best_street)
             # prioritizes undiscovered nodes 
 
             #update 
