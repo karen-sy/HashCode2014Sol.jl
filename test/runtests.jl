@@ -9,8 +9,8 @@ using Test
         rtime = @belapsed random_walk_distance()
 
         new_soln = optimal_walk(c)
-        sdistance = get_soln_distance(new_soln, c)
-        stime = @belapsed get_soln_distance(optimal_walk(city()), city())
+        sdistance = distance(new_soln, c)
+        stime = @belapsed distance(optimal_walk(city()), city())
 
         @test sdistance > rdistance
         @test stime < rtime
