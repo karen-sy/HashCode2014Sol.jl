@@ -14,9 +14,10 @@ traveled in this 'solution' in meters.
 - 'solution:Solution': a solution to the 'problem' based on the optimal_walk algorithm 
 - 'distance::Int': a record, in meters, of the unique distance traveled by the cars in optimal 'solution'
 
-# Constructor
     Problem(duration::Int)
-    Returns a Problem instance about a default city with the given 'duration' (in seconds)
+
+# Constructor
+- Returns a Problem instance about a default city with the given 'duration' (in seconds)
 """
 struct Problem
     problem::City
