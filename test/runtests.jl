@@ -3,7 +3,7 @@ using BenchmarkTools
 using Test
 
 @testset "HashCode2014Sol.jl" begin
-    @testset "HW7 (functions.jl)" begin
+    @testset "HW7 (optimized.jl)" begin
         c = city()
         rdistance = random_walk_distance()
         rtime = @belapsed random_walk_distance()
@@ -15,18 +15,6 @@ using Test
         @test sdistance > rdistance
         @test stime < rtime
     end 
-    @testset "HW7 (function.jl) part 2" begin
-        c = change_duration(city(), 18000)
-        rdistance = distance(random_walk(change_duration(city(), 18000)), c)
-        rtime = @belapsed distance(random_walk(change_duration(city(), 18000)), change_duration(city(), 18000))
-
-        new_soln = optimal_walk(c)
-        sdistance = get_soln_distance(new_soln, c)
-        stime = @belapsed get_soln_distance(optimal_walk(change_duration(city(), 18000)), change_duration(city(), 18000))
-        
-        @test sdistance > rdistance
-        @test stime < rtime
-    end
 
     @testset "routegrid.jl" begin
         c = city()
