@@ -3,22 +3,9 @@ include("functions.jl")
 
 """
     optimal_walk(city)
-    
-Takes a city, and returns an itinerary for each car that reduces repeated travel along visited 
-streets as much as possible.
 
-# Algorithmic description
-- Modifies random_walk to avoid visiting already visited junctions as much as possible
-- To avoid repeated calculation, gets a matrix of all the streets travelable from a junction, switches endpointA and endpointB when bidirectional to put street in the entry of neighbors_streets[endpointB] 
-- Initialize a dictionary visited_nodes that keeps track of how many times a junction has been visited, by default: 0 times 
-- For each car:
-    - Get current_node's travelable streets 
-    - Filter streets by which ones match the total_duration
-    - Filter further with optimal_neighbor that picks the least visited neighbor
-    - If no applicable streets, move to next car
-    - Add the street's endpointB to current car's itinerary, update visited and duration
-- Apply Solution(_) to array of all the cars' itineraries in order
-- Return that Solution
+Takes a `city`, and returns an itinerary for each car that reduces repeated travel along visited 
+streets as much as possible.
 
 """
 function optimal_walk(city::HashCode2014.City)
@@ -68,12 +55,12 @@ end
     optimal_neighbor(neighbors_streets, visited)
 
 # Pre-requisite
-- all street.endpointA in neighbors_streets is the same 
+- all `street.endpointA` in `neighbors_streets` is the same 
 # Parameters: 
-- neighbors_streets: vector of adjacent streets, assumes for all neighbor in neighbors_streets, neighbor.endpointB is travelable from same origin node neighbor.endpointA 
-- visited: for all junctions in the corresponding city, a dictionary keeping track of the frequency of how many times each junction was visited (by any car)
+- `neighbors_streets`: vector of adjacent streets, assumes for all `neighbor` in `neighbors_streets`, `neighbor.endpointB` is travelable from same origin node `neighbor.endpointA` 
+- `visited`: for all junctions in the corresponding city, a dictionary keeping track of the frequency of how many times each junction was visited (by any car)
 # Returns 
-The street in neighbors_streets that is least visited, breaks ties by picking left-most entry in neighbors_streets
+The street in `neighbors_streets` that is least visited, breaks ties by picking left-most entry in `neighbors_streets`
 """
 function optimal_neighbor(neighbors_streets::Vector{HashCode2014.Street}, visited::Dict{Int, Int})::HashCode2014.Street
     least_freq_street = neighbors_streets[1]

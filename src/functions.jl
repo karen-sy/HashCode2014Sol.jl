@@ -28,7 +28,7 @@ end
 """
     distance(solution, city)
 
-For a city with a feasible solution, returns the unique distance traveled by the cars 
+For a city with a feasible `solution`, returns the unique distance traveled by the cars 
 """
 function distance(solution::Solution, city::City)
     return HashCode2014.total_distance(solution, city)
@@ -37,7 +37,7 @@ end
 """
     random_walk_distance()
 
-Performs a random walk on the default city() and returns the unique distance traveled by the cars 
+Performs a random walk on the default `city()` and returns the unique distance traveled by the cars 
 """
 function random_walk_distance()
     c = HashCode2014.read_city()
@@ -49,10 +49,10 @@ end
     get_neighbor_streets(city)
 
 # Parameter
-- city: city for which we want to map neighboring streets for for each street
+- `city`: City instance for which we want to map neighboring streets for for each street
 # Returns
-- Returns a vector neighbors_streets, such that for every junction with index i: every junction index in neighbors_streets[i] can be traveled to from junction i
-- More specificically: that if street in neighbors_streets[i]: street.endpointA = i 
+- Returns a vector `neighbors_streets`, such that for every junction with index i: every junction index in `neighbors_streets[i]` can be traveled to from junction i
+- More specificically: that if street in `neighbors_streets[i]`: `street.endpointA = i`
 """
 function get_neighbor_streets(city::HashCode2014.City)
     streets = city.streets
@@ -79,12 +79,12 @@ end
 
 Takes a city and gives an approximate upper limit on the distance that can be feasibly traveled by the cars 
 # Algorithmic description:
-    Assumes that all streets are travelable from one another, and that it is actually one car traveling for a limit
-    total of total_duration*nb_cars seconds. In that case, we can greedily assume that this one car travels along 
-    only the most "efficient" streets, or streets that maximize the meter distance traveled per second.
-    We sort the streets by this efficiency definition and make the car travel along the most efficient, making sure
-    it does not exceed (total_duration*nb_cars), and keeping track of the total distance being traveled.
-    At the end, we return this final distance. 
+Assumes that all streets are travelable from one another, and that it is actually one car traveling for a limit
+total of `total_duration`*`nb_cars` seconds. In that case, we can greedily assume that this one car travels along 
+only the most "efficient" streets, or streets that maximize the meter distance traveled per second.
+We sort the streets by this efficiency definition and make the car travel along the most efficient, making sure
+it does not exceed (`total_duration`*`nb_cars`), and keeping track of the total distance being traveled.
+At the end, we return this final distance. 
 """
 function upper_limit(city::HashCode2014.City)
     (; total_duration, nb_cars, starting_junction, streets) = city
