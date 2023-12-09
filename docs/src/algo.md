@@ -1,11 +1,11 @@
 # Algorithm description
-## optimal_walk
+## Algorithms for Generating a Good Solution
     optimal_walk(city)
 
 Takes a `city`, and returns an itinerary for each car that reduces repeated travel along visited 
 streets as much as possible.
 
-#### Algorithms for Generating a Good Solution
+#### Algorithms description
 - TLDR: Modifies `random_walk` to avoid visiting already visited junctions as much as possible
 - To avoid repeated calculation, gets a matrix of all the streets travelable from each junction, 
     - Switches `street.endpointA` and `street.endpointB` when `bidirectional` to put `street` in the entry of `neighbors_streets[endpointB]` 
