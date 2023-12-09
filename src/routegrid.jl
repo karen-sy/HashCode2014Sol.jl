@@ -7,55 +7,102 @@ associated with calculating and storing routes for traversing a city.
 
 # Fields
 - `starting_junction::Int`: junction at which all the cars are located initially
+- `nb_cars::Int`: Number of cars traversing the grid 
 - `junctions::Vector{Junction}`: list of junctions
+- `junction_visits::Dict{Int, Int}`: dict that maps each junction ID to the number of times it has been visited by any car
 - `streets::Vector{Street}`: list of streets
-- `street_dists`::Vector{Int} : list of length of each street of `streets`, in meters`
+- `street_dists::Vector{Int}`` : list of length of each street of `streets`, in meters`
+- `routes`::Vector{Route} : list of routes being travelled by each car
 """
 
 import HashCode2014
 
-Base.@kwdef struct Route 
-    streets::Vector{Street}
-    start_junc::Int 
-    end_junc::Int 
-    dist::Int 
+Base.@kwdef mutable struct Route 
+    streets::Vector{Int}
+    distance::Int 
     duration::Int
 end
 
-Base.@kwdef struct RouteGrid 
+Base.@kwdef mutable struct RouteGrid 
     starting_junction::Int 
     junctions::Vector{Junction}
+    junction_visits::Dict{Int, Int}
+    junction_connections::Dict{Int, Vector{Street}}
+    nb_cars::Int
+    total_duration::Int
     streets::Vector{Street}
     street_dists::Vector{Int} 
-    routes::Dict{Tuple{Int64, Int64},Route}
+    routes::Vector{Route}
 end
 
 #############################
 # Initialization ops 
 #############################
+"""
+    city: city for which we want to map neighboring streets for for each street
+    returns a vector junction_connections, such that for every junction with index i: every junction index
+        in junction_connections[i] can be traveled to from junction i
+        Goes even more specific that if street in junction_connections[i]:
+                street.endpointA = i 
+"""
+function get_junction_connections(streets::Vector{Street}, junctions::Vector{Junction})::Dict{Int, Vector{Street}}
+    n_junctions = length(junctions) #number of nodes 
+    junction_connections = Dict{Int, Vector{Street}}(zip(1:n_junctions, [Vector{Street}() for _ in 1:n_junctions]))
+    #junction_connections[i] represents the corresponding streets that travel them from junction i 
+    #to its neighbors 
+
+    for street in streets
+        i = street.endpointA
+        j = street.endpointB
+
+        push!(junction_connections[i], street)
+        if street.bidirectional
+            push!(junction_connections[j], Street(j, i, true, street.duration, street.distance))
+        end 
+    end 
+    return junction_connections
+end
 
 """
     routegrid()
 
 Create a RouteGrid from the official challenge City. 
 """
-function routegrid()
+function routegrid()::RouteGrid
     city = HashCode2014.read_city()
-    street_dists =zeros(length(city.streets))
+    streets = city.streets
+    junctions = city.junctions
+    starting_junction = city.starting_junction
+    nb_cars = city.nb_cars
+    street_dists =zeros(length(streets))
 
     # store Street distances 
-    for i=1:length(city.streets)
-        street_dists[i] = city.streets[i].distance
+    for i=1:length(streets)
+        street_dists[i] = streets[i].distance
     end
 
-    # initially there is no registered route.
-    routes = Dict{Tuple{Int64, Int64}, Route}()
+    # initialize junction visit counts to zeros
+    n_junctions = length(junctions)
+    keys = 1:n_junctions
+    values = zeros(n_junctions)
+    junction_visits = Dict{Int, Int}(zip(keys, values))
 
-    return RouteGrid(starting_junction=city.starting_junction,
-                    junctions=city.junctions,
-                    streets=city.streets,
+    # Initialize routes for each car.
+    init_route = Route(streets=[starting_junction], distance=0, duration=0)
+    init_routes::Vector{Route} = [init_route for _ in 1:nb_cars] 
+
+    # Initialize neighborhood map.
+    junction_connections = get_junction_connections(streets, junctions)
+
+    return RouteGrid(total_duration=city.total_duration,
+                    starting_junction=starting_junction,
+                    nb_cars=nb_cars,
+                    junctions=junctions,
+                    junction_visits=junction_visits,
+                    junction_connections=junction_connections, 
+                    streets=streets,
                     street_dists=street_dists, 
-                    routes=routes)
+                    routes=init_routes)
 end
 
 """
@@ -63,37 +110,40 @@ end
 
 Create a RouteGrid from a specified City. 
 """
-function routegrid(city::City)
-    street_dists = Vector{Int}(undef, length(city.streets))
-    for i=1:length(city.streets)
-        street_dists[i] = city.streets[i].distance
-    end
+function routegrid(city::City)::RouteGrid
+    streets = city.streets
+    junctions = city.junctions
+    starting_junction = city.starting_junction
+    nb_cars = city.nb_cars
+    street_dists =zeros(length(streets))
 
     # store Street distances 
-    for i=1:length(city.streets)
-        street_dists[i] = city.streets[i].distance
+    for i=1:length(streets)
+        street_dists[i] = streets[i].distance
     end
 
-    # initially there is no registered route.
-    routes = Dict{Tuple{Int64, Int64}, Route}()
+    # initialize junction visit counts to zeros
+    n_junctions = length(junctions)
+    keys = 1:n_junctions
+    values = zeros(n_junctions)
+    junction_visits = Dict{Int, Int}(zip(keys, values))
 
-    return RouteGrid(starting_junction=city.starting_junction,
-                    junctions=city.junctions,
-                    streets=city.streets,
-                    street_dists=street_dists,
-                    routes=routes)
-end
+    # Initialize routes for each car.
+    init_route = Route(streets=[starting_junction], distance=0, duration=0)
+    init_routes::Vector{Route} = [init_route for _ in 1:nb_cars] 
 
+    # Initialize neighborhood map.
+    junction_connections = get_junction_connections(streets, junctions)
 
-"""
-    route(streets, start_junc_idx, end_junc_idx)
-
-Create a Route from the in-RouteGrid indices of its start and end junctions
-"""
-function route(streets::Vector{Street}, start_junc_idx::Int, end_junc_idx::Int)
-    total_dist = sum([street.distance for street in streets])
-    total_duration = sum([street.duration for street in streets])
-    return Route(streets, start_junc_idx, end_junc_idx, total_dist, total_duration)
+    return RouteGrid(total_duration=city.total_duration,
+                    starting_junction=starting_junction,
+                    nb_cars=nb_cars,
+                    junctions=junctions,
+                    junction_visits=junction_visits,
+                    junction_connections=junction_connections, 
+                    streets=streets,
+                    street_dists=street_dists, 
+                    routes=init_routes)
 end
 
 #############################
@@ -131,56 +181,53 @@ function check_junction(route_grid::RouteGrid, street_idx_1::Int, street_idx_2::
 end
 
 """
-    check_route(route_grid, junction_idx_start, junction_idx_end)
+    get_last_junction(route_grid, car_id)
 
-Check if there exists a Route from two Junctions of the given indices in a RouteGrid.
-The first index denotes the start junction, and the second index denotes the end junction.
-If so, return (true, Route). Else, return (false, nothing).
+Return the last junction that the car has passed in the routegrid.
 """
-function check_route(route_grid::RouteGrid, junction_idx_start::Int, junction_idx_end::Int)
-    if haskey(route_grid.routes, (junction_idx_start, junction_idx_end))  
-        return (true, route_grid.routes[(junction_idx_start, junction_idx_end)])
-    else 
-        return (false, nothing)
-    end
+function get_last_junction(route_grid::RouteGrid, car_id::Int)::Int
+    return last(route_grid.routes[car_id].streets)
 end
 
 
 #############################
-# Route update ops
+# Optimal route calculation ops
 #############################
-
 """
-    add_route!(route_grid, route)
+    add_junction_to_route!(route_grid, car_id, junction_id)
 
-Register a new Route to RouteGrid
+Expand route of car and increment junction visits
 """
-function add_route!(route_grid::RouteGrid, route::Route)
-    print((route.start_junc, route.end_junc))
-    route_grid.routes[(route.start_junc, route.end_junc)] = route
+function add_junction_to_route!(route_grid::RouteGrid, car_id::Int, junction_id::Int)
+    push!(route_grid.routes[car_id].streets, junction_id) 
+    route_grid.routes[car_id].distance +=  route_grid.streets[junction_id].distance
+    route_grid.routes[car_id].duration +=  route_grid.streets[junction_id].duration
+    route_grid.junction_visits[junction_id] += 1 
 end
 
-
 """
-    delete_route!(route_grid, junc_idx_start, junc_idx_end)
+    optimal_neighbor(route_grid, query_streets)
 
-Delete an existing Route between two streets from RouteGrid.
-The first index denotes the start street, and the second index denotes the end street.
+Pre-requisite: all street.endpointA in query_streets is the same 
+Parameters: 
+    route_grid: the current RouteGrid in context
+    query_streets: vector of adjacent streets, assumes for all neighbor in query_streets, neighbor.endpointB is travelable 
+                    from same origin node neighbor.endpointA 
+Returns the street in query_streets that is least visited, breaks ties by picking left-most entry in query_streets
 """
-function delete_route!(route_grid::RouteGrid, junc_idx_start::Int, junc_idx_end::Int)
-    @assert haskey(route_grid.routes, (junc_idx_start, junc_idx_end)) "Route to remove does not exist in RouteGrid"
-    delete!(route_grid.routes, (junc_idx_start, junc_idx_end))
-end
-
-
-"""
-    replace_route!(route_grid, new_route)
-
-Replace an existing Route between two junctions in RouteGrid with a new Route  
-"""
-function replace_route!(route_grid::RouteGrid, new_route::Route)
-    @assert haskey(route_grid.routes, (new_route.start_junc, new_route.end_junc)) "Route between junctions does not already exist in RouteGrid"
-    route_grid.routes[(new_route.start_junc, new_route.end_junc)] = new_route
+function optimal_neighbor(route_grid::RouteGrid, query_streets::Vector{Street})::Street
+    least_freq_street = query_streets[1]
+    least_freq = Inf
+    for neighbor in query_streets
+        freq = route_grid.junction_visits[neighbor.endpointB]
+        if(freq == 0) #not yet visited 
+            return neighbor end 
+        if( freq < least_freq)
+            least_freq = freq
+            least_freq_street = neighbor
+        end 
+    end 
+    return least_freq_street
 end
 
 

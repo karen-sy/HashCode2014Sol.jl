@@ -44,35 +44,6 @@ function random_walk_distance()
     solution = HashCode2014.random_walk(c)
     return HashCode2014.total_distance(solution, c)
 end 
-    
-"""
-    get_neighbor_streets(city)
-
-# Parameter
-- `city`: City instance for which we want to map neighboring streets for for each street
-# Returns
-- Returns a vector `neighbors_streets`, such that for every junction with index i: every junction index in `neighbors_streets[i]` can be traveled to from junction i
-- More specificically: that if street in `neighbors_streets[i]`: `street.endpointA = i`
-"""
-function get_neighbor_streets(city::HashCode2014.City)
-    streets = city.streets
-    junctions = city.junctions
-    N = length(junctions) #number of nodes 
-    neighbors_streets = [Vector{HashCode2014.Street}() for _ in 1:N]
-    #neighbors_streets[i] represents the corresponding streets that travel them from junction i 
-    #to its neighbors 
-
-    for street in streets
-        i = street.endpointA
-        j = street.endpointB
-
-        push!(neighbors_streets[i], street)
-        if street.bidirectional
-            push!(neighbors_streets[j], Street(j, i, true, street.duration, street.distance))
-        end 
-    end 
-    return neighbors_streets
-end
 
 """
     upper_limit(city)
