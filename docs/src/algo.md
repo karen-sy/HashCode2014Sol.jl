@@ -32,3 +32,29 @@ In that case, we can greedily assume that this one car travels along only the mo
 We sort the streets by this efficiency definition and make the car travel along the most efficient roads, making sure the running duration does not exceed (`total_duration`*`nb_cars`). We keep track of the total distance being traveled.
 
 At the end, we return the final distance. 
+
+
+
+#### Results achieved with our algorithm
+`total_duration = 54000` seconds *random* walk (control): 
+```
+Distance = 715435 m
+Time = 7.063 s 
+```
+`total_duration = 18000` seconds *random* walk (control): 
+```
+Distance = 425783 m
+Time = 2.153 s 
+```
+
+---
+`total_duration = 54000` seconds *optimal* walk (our algorithm): 
+```
+Distance = 1409210 m
+Time = 0.178 s 
+```
+`total_duration = 18000` seconds *optimal* walk (our algorithm): 
+```
+Distance = 682037 m
+Time = 0.074 s 
+```
