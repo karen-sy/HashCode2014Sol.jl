@@ -6,18 +6,14 @@ using Test
     @testset "HW7 (optimized.jl)" begin
         c = city()
         rdistance = random_walk_distance()
-        # rtime = @belapsed random_walk_distance()
-        rtime = 10
+        rtime = @belapsed random_walk_distance()
 
         println("Randomized distance = ", rdistance)
         println("Randomized time = ", rtime)
-        rdistance = 0
-        rtime = Inf
 
         new_soln = optimal_walk(c)
         sdistance = distance(new_soln, c)
-        # stime = @belapsed distance(optimal_walk(city()), city())
-        stime = 1
+        stime = @belapsed distance(optimal_walk(city()), city())
 
         println("Optimized distance = ", sdistance)
         println("Optimized time = ", stime)
