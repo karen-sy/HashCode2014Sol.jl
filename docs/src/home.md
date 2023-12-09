@@ -6,15 +6,15 @@ HashCode2014Sol Documentation
 Pages = [
     "tutorial.md",
 ]
-Depth = 1
+Depth = 3
 ```
 
 ## Functions
 ```@contents
 Pages = [
-    
+    "index.md"
 ]
-Depth = 2
+Depth = 3
 ```
 
 ## Algorithm description
@@ -22,5 +22,5 @@ Depth = 2
 Pages = [
     "algo.md",
 ]
-Depth = 2
+Depth = 3
 ```
