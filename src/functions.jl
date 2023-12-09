@@ -78,13 +78,6 @@ end
     upper_limit(city)
 
 Takes a city and gives an approximate upper limit on the distance that can be feasibly traveled by the cars 
-# Algorithmic description:
-Assumes that all streets are travelable from one another, and that it is actually one car traveling for a limit
-total of `total_duration`*`nb_cars` seconds. In that case, we can greedily assume that this one car travels along 
-only the most "efficient" streets, or streets that maximize the meter distance traveled per second.
-We sort the streets by this efficiency definition and make the car travel along the most efficient, making sure
-it does not exceed (`total_duration`*`nb_cars`), and keeping track of the total distance being traveled.
-At the end, we return this final distance. 
 """
 function upper_limit(city::HashCode2014.City)
     (; total_duration, nb_cars, starting_junction, streets) = city
