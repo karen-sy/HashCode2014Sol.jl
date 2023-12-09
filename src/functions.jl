@@ -4,8 +4,10 @@ using HashCode2014
     city()
 
 Allows user to create a default HashCode2014 city 
-# Parameter: none 
-Returns default city of type City in HashCode2014 starter 
+# Parameter
+- nothing 
+# Return
+- a default city of type City in HashCode2014 starter 
 """
 function city()
     return HashCode2014.read_city()
@@ -17,7 +19,8 @@ Create a new City with a different `total_duration` and everything else equal.
 # Parameter
 - `city::City` - city whose duration we would like to change 
 - `total_duration::Int` - the new `total_duration` (in meters) we would like to change to 
-Returns a new City instance that changes the `total_duration` to that specified
+# Return
+- a new City instance that changes the `total_duration` to that specified
 """
 function change_duration(city::City, total_duration::Int)
     new_city = City(;
@@ -37,7 +40,8 @@ For a city with a feasible `solution`, find the distance traveled in the solutio
 # Parameter
 - `solution::Solution` - a feasibility itinerary solution to the junctions the cars travel to 
 - `city::City` - city whose data values derive the solution
-Returns an int representing the unique distance traveled by the cars in the `solution` in meters
+# Return
+- an int representing the unique distance traveled by the cars in the `solution` in meters
 """
 function distance(solution::Solution, city::City)
     return HashCode2014.total_distance(solution, city)
@@ -47,8 +51,10 @@ end
     random_walk_distance()
 
 Performs a random walk on the default `city()` and gets the distance
-# Parameter: none
-Returns an int representing the unique distance traveled by the cars in the `solution` in meters
+# Parameter
+- nothing
+# Return
+- an int representing the unique distance traveled by the cars in the `solution` in meters
 """
 function random_walk_distance()
     c = HashCode2014.read_city()
@@ -62,7 +68,8 @@ end
 Calculate an approximate upper limit on the distance travelable in `city`
 # Parameter
 - `city::City`: target City instance 
-Returns an integer, in meters, representing the upper limit travelable by cars in `city`
+# Return 
+- an integer, in meters, representing the upper limit travelable by cars in `city`
 
 Algorithm in documentation 
 """

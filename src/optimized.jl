@@ -9,9 +9,10 @@ include("routegrid.jl")
 For a `city`, get a solution that aims to prioritize undiscovered/infrequent junctions in its cars' traversals
 # Parameter
 - `city::City` - city whose optimal solution we would like to compute 
-# Returns  an itinerary for each car that reduces repeated travel along visited streets as much as possible.
+# Return
+- an optimized itinerary (vector of Junction indices) for each car
 
-Algorithmic description in documentation
+Algorithm description in documentation
 
 """
 function optimal_walk(city::City)

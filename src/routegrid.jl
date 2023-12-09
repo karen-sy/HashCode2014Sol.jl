@@ -45,7 +45,7 @@ Get the connecting travelable streets for each junction by index
 # Parameter
 - `streets::Vector{Street}` - all the streets in our target city 
 - `junctions::Vector{Junction}` - all the junctions in our target city 
-Returns
+# Return
 - A dictionary `junction_connections` mapping each junction (by its index) to a vector of streets that are travelable from that junction
 - Goes even more specific that if a `street` in `streets` is `street.bidirectional`: 
     - `junction_connections[street.endpointB]` contains a new Street instance with the endpoints switched 
@@ -72,8 +72,10 @@ end
     routegrid()
 
 Create a RouteGrid from the official challenge City. 
-Parameter: none
-Returns a default `RouteGrid` instance based on a default `HashCode2014.City` instance
+# Parameter
+- nothing
+# Return
+- a default `RouteGrid` instance based on a default `HashCode2014.City` instance
 """
 function routegrid()::RouteGrid
     city = HashCode2014.read_city()
@@ -118,7 +120,8 @@ end
 Create a RouteGrid from a specified City. 
 # Parameter
 - `city::City` - `City` instance we want to derive a `RouteGrid` from
-Returns a new `RouteGrid` instance based on the data of `city` 
+# Return
+- new `RouteGrid` instance based on the data of `city` 
 
 """
 function routegrid(city::City)::RouteGrid
@@ -222,7 +225,8 @@ Expand route of car and increment junction visits
 # Parameter
 - `route_grid:RouteGrid` - our target `RouteGrid` instance
 - `car_id` - the number of the car whose itinerary in `route_grid` we would like to check
-Returns nothing 
+# Return
+- nothing 
 """
 function add_junction_to_route!(route_grid::RouteGrid, car_id::Int, junction_id::Int)
     push!(route_grid.routes[car_id].streets, junction_id) 
@@ -235,11 +239,11 @@ end
     optimal_neighbor(route_grid, query_streets)
 
 Pre-requisite: all street.endpointA in query_streets is the same 
-Parameters: 
-    route_grid: the current RouteGrid in context
-    query_streets: vector of adjacent streets, assumes for all neighbor in query_streets, neighbor.endpointB is travelable 
-                    from same origin node neighbor.endpointA 
-Returns the street in query_streets that is least visited, breaks ties by picking left-most entry in query_streets
+# Parameter
+- `route_grid:RouteGrid` - the current RouteGrid in context
+- `query_streets::Vector{Street}` - vector of adjacent streets
+# Return
+- the street in query_streets that is least visited, breaks ties by picking left-most entry in query_streets
 """
 function optimal_neighbor(route_grid::RouteGrid, query_streets::Vector{Street})::Street
     least_freq_street = query_streets[1]
