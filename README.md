@@ -9,7 +9,7 @@
 
 Project repository for the final project for MIT's [18.C25 Julia: Solving Real-World Problems with Computation](https://github.com/mitmath/JuliaComputation). The project's objective is derived from [Google's HashCode 2014 competition](https://storage.googleapis.com/coding-competitions.appspot.com/HC/2014/hashcode2014_final_task.pdf). 
 
-See [Documentation](https://karen-sy.github.io/HashCode2014Sol.jl/dev/) for tutorials and API documentation.
+See [Documentation](https://karen-sy.github.io/HashCode2014Sol.jl/dev/home) for tutorials and API documentation.
 
 ## Getting started 
 Compatibility for Julia 1.8 or above required. Clone the repository and activate the HashCode2014Sol environment from source via `Pkg.activate()`. This is a lightweight library with the dependencies:
