@@ -1,7 +1,8 @@
 # Welcome to the Documentation for HashCode2014Sol.jl
 
+This project is a solution to the [JuliaComputation Challenge](https://gdalle.github.io/IntroJulia/challenge.html), which is motivated by Google HashCode 2014 ([official task statement](https://storage.googleapis.com/coding-competitions.appspot.com/HC/2014/hashcode2014_final_task.pdf)). In summary, given a street map of a city, we must find the optimal set of routes that a given number of cars should travel in order to maximize the total coverage of the city's streets.
+
 ## Background
-The problem at hand is to optimize Google Streetview collections. We ideally must travel along as many unique streets as possible. 
 
 A `City` is a graph with nodes (`Junction`s), connected by edges (`Street`s). Junctions have defined latitude and longitude coordinates, and streets have two junctional endpoints ("a" and "b"). Streets are also indicated bidirectionality, as well as by distance and time required to travel across the street by car.   
 
@@ -12,7 +13,7 @@ We are constrained by various factors:
 
 A `random_walk` solution, in the starter code, randomly, for each car, chooses a viable street to travel across. Our task for the challenge is to reduce computation time, and increase total distance traveled across the city. 
 
-See the Quickstart page for instructions on running the code.
+See the [Quickstart](https://karen-sy.github.io/HashCode2014Sol.jl/dev/tutorial/) page for instructions on running the code.
 
 ## Quickstart
 ```@contents
