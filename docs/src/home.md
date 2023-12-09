@@ -13,7 +13,7 @@ We are constrained by various factors:
 
 A `random_walk` solution, in the starter code, randomly, for each car, chooses a viable street to travel across. Our task for the challenge is to reduce computation time, and increase total distance traveled across the city. 
 
-See the [Quickstart](https://karen-sy.github.io/HashCode2014Sol.jl/dev/tutorial/) page for instructions on running the code.
+See the [Quickstart](https://karen-sy.github.io/HashCode2014Sol.jl/dev/tutorial/) page for instructions on running the code, and for notes on our implementation using custom Julia types.
 
 ## Quickstart
 ```@contents
