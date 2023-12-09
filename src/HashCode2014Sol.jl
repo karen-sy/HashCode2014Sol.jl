@@ -4,7 +4,7 @@ module HashCode2014Sol
 
     export city, random_walk_distance, distance   # functions.jl 
     export optimal_walk # optimized.jl
-    export routegrid, route, check_junction, check_route, add_route!, delete_route!, replace_route!   # routegrid.jl
+    export routegrid, route, check_junction, add_junction_to_route!, optimal_neighbor   # routegrid.jl
 
     include("functions.jl")
     include("routegrid.jl")
