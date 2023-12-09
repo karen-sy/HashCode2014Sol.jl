@@ -16,6 +16,8 @@ traveled in this `solution` in meters.
 
     Problem(duration::Int)
 
+# Parameter
+- `duration::Int` - duration in seconds that we want to ascribe to default HashCode2014 city 
 # Constructor
 - Returns a Problem instance about a default city with the given `duration` (in seconds)
 """
