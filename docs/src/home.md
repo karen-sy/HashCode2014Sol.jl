@@ -10,10 +10,8 @@ Depth = 3
 ```
 
 ## Functions
-```@contents
-Pages = [
-    "index.md"
-]
+```@index
+Pages = ["index.md"]
 Depth = 3
 ```
 
