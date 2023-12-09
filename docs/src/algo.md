@@ -5,7 +5,7 @@
 Takes a `city`, and returns an itinerary for each car that reduces repeated travel along visited 
 streets as much as possible.
 
-#### Algorithmic description
+#### Algorithms for Generating a Good Solution
 - TLDR: Modifies `random_walk` to avoid visiting already visited junctions as much as possible
 - To avoid repeated calculation, gets a matrix of all the streets travelable from each junction, 
     - Switches `street.endpointA` and `street.endpointB` when `bidirectional` to put `street` in the entry of `neighbors_streets[endpointB]` 
@@ -19,7 +19,7 @@ streets as much as possible.
 - Apply `Solution` to array of all the cars' `itineraries` in order
 - Return that solution
 
-## upper_limit
+## Finding an Upper Bound on the Best Objective Value
     upper_limit(city)
 
 Takes a city and gives an approximate upper limit on the distance that can be feasibly traveled by the cars 
