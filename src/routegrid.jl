@@ -39,11 +39,16 @@ end
 # Initialization ops 
 #############################
 """
-    city: city for which we want to map neighboring streets for for each street
-    returns a vector junction_connections, such that for every junction with index i: every junction index
-        in junction_connections[i] can be traveled to from junction i
-        Goes even more specific that if street in junction_connections[i]:
-                street.endpointA = i 
+    get_junction_connections(streets, junctions)
+
+Get the connecting travelable streets for each junction by index 
+# Parameter
+- `streets::Vector{Street}` - all the streets in our target city 
+- `junctions::Vector{Junction}` - all the junctions in our target city 
+Returns
+- A dictionary `junction_connections` mapping each junction (by its index) to a vector of streets that are travelable from that junction
+- Goes even more specific that if a `street` in `streets` is `street.bidirectional`: 
+    - `junction_connections[street.endpointB]` contains a new Street instance with the endpoints switched 
 """
 function get_junction_connections(streets::Vector{Street}, junctions::Vector{Junction})::Dict{Int, Vector{Street}}
     n_junctions = length(junctions) #number of nodes 
@@ -67,6 +72,8 @@ end
     routegrid()
 
 Create a RouteGrid from the official challenge City. 
+Parameter: none
+Returns a default `RouteGrid` instance based on a default `HashCode2014.City` instance
 """
 function routegrid()::RouteGrid
     city = HashCode2014.read_city()
@@ -109,6 +116,10 @@ end
     routegrid(city)
 
 Create a RouteGrid from a specified City. 
+# Parameter
+- `city::City` - `City` instance we want to derive a `RouteGrid` from
+Returns a new `RouteGrid` instance based on the data of `city` 
+
 """
 function routegrid(city::City)::RouteGrid
     streets = city.streets
@@ -152,8 +163,15 @@ end
 """
     check_junction(route_grid, street_idx_1, street_idx_2)
 
-Check if two Streets of the given indices in the RouteGrid intersect at a Junction.
-If so, return (true, Junction); else, return (false, nothing)
+Check if two given treets in a `RouteGrid` intersect at a junction.
+# Parameter
+- `route_grid`::RouteGrid - the RouteGrid instance the two streets are part of 
+- `street_idx_1::Int` - the first ordered street # 
+- `street_idx_2::Int` - the other ordered street # we want to compare the first two 
+# Return
+- a tuple of form (::Bool, HashCode2014.Junction)
+- The first value represents whether the two specified streets intersect at a junction
+- The second value representing if yes, at which junction they intersect; is left null if no
 """
 function check_junction(route_grid::RouteGrid, street_idx_1::Int, street_idx_2::Int)
     @assert street_idx_1 < length(route_grid.streets) && street_idx_2 < length(route_grid.streets)
@@ -183,7 +201,11 @@ end
 """
     get_last_junction(route_grid, car_id)
 
-Return the last junction that the car has passed in the routegrid.
+Get the last junction that the car has passed in the routegrid.
+# Parameter
+- `route_grid::RouteGrid` - our target `RouteGrid` instance
+- `car_id` - the number of the car whose itinerary in `route_grid` we would like to check
+Returns index of last junction in `route_grid` visited by car with `car_id`
 """
 function get_last_junction(route_grid::RouteGrid, car_id::Int)::Int
     return last(route_grid.routes[car_id].streets)
@@ -197,6 +219,10 @@ end
     add_junction_to_route!(route_grid, car_id, junction_id)
 
 Expand route of car and increment junction visits
+# Parameter
+- `route_grid:RouteGrid` - our target `RouteGrid` instance
+- `car_id` - the number of the car whose itinerary in `route_grid` we would like to check
+Returns nothing 
 """
 function add_junction_to_route!(route_grid::RouteGrid, car_id::Int, junction_id::Int)
     push!(route_grid.routes[car_id].streets, junction_id) 
